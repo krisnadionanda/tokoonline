@@ -13,6 +13,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Spatie\FilamentMediaLibrary\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\SpatieMediaLibraryImageColumn;
 
 class ProductResource extends Resource
 {
@@ -39,10 +40,22 @@ class ProductResource extends Resource
                     ->required()
                     ->numeric()
                     ->prefix('$'),
+                Forms\Components\Select::make('categories')
+                ->relationship('categories', 'category_name')
+                ->required()
+                ->preload(),
                 Forms\Components\SpatieMediaLibraryFileUpload::make('product_image')
                 ->collection('products_image')
                 ->image()
                 ->required(),
+                Forms\Components\TextArea::make('product_description_short')
+                ->required()
+                ->rows(3)
+                ->maxLength(255),
+                Forms\Components\RichEditor::make('product_description_long')
+                ->required()
+                ->columnSpanFull(),
+                
             ]);
     }
 
@@ -64,6 +77,9 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('price')
                     ->money()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('categories.category_name')
+                    ->badge()
+                    ->color('success'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

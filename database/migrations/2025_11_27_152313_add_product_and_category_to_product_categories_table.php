@@ -8,14 +8,13 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * Migration ini dikosongkan karena kolom product_id & category_id
+     * sudah dibuat di create_product_categories_table.
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
-            $table->id();
-            $table->string('category_name'); // kolom yang dipakai di Filament
-            $table->timestamps();
-        });
+        // Tidak melakukan apa-apa
     }
 
     /**
@@ -23,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        // Tidak melakukan apa-apa juga
     }
 };

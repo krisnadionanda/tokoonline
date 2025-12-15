@@ -2,31 +2,28 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\CategoryResource\Pages;
-use App\Models\Category;
+use App\Filament\Resources\OrderResource\Pages;
+use App\Filament\Resources\OrderResource\RelationManagers;
+use App\Models\Order;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class CategoryResource extends Resource
+class OrderResource extends Resource
 {
-    protected static ?string $model = Category::class;
+    protected static ?string $model = Order::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $navigationLabel = 'Categories';
-    protected static ?string $modelLabel       = 'Category';
-    protected static ?string $pluralModelLabel = 'Categories';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('category_name')
-                    ->label('Category Name')
-                    ->required()
-                    ->maxLength(255),
+                //
             ]);
     }
 
@@ -34,24 +31,12 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-
-                Tables\Columns\TextColumn::make('category_name')
-                    ->label('Category')
-                    ->searchable()
-                    ->sortable(),
-
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Created at')
-                    ->dateTime('d/m/Y H:i')
+                    ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Updated at')
-                    ->dateTime('d/m/Y H:i')
+                    ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
@@ -60,7 +45,6 @@ class CategoryResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -79,9 +63,9 @@ class CategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => Pages\ListCategories::route('/'),
-            'create' => Pages\CreateCategory::route('/create'),
-            'edit'   => Pages\EditCategory::route('/{record}/edit'),
+            'index' => Pages\ListOrders::route('/'),
+            'create' => Pages\CreateOrder::route('/create'),
+            'edit' => Pages\EditOrder::route('/{record}/edit'),
         ];
     }
 }
