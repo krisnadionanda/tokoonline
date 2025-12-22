@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Spatie\FilamentMediaLibrary\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\SpatieMediaLibraryImageColumn;
 
+
 class ProductResource extends Resource
 {
     protected static ?string $model = Product::class;
